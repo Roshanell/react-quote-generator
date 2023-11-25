@@ -7,7 +7,7 @@ const QuoteBox = () => {
   const [author, setAuthor] = useState(null);
 
   const fetchQuote = async () => {
-    setLoading(true)
+    setLoading(true);
     let category = "happiness";
 
     fetch(`https://api.api-ninjas.com/v1/quotes?category=${category}`, {
@@ -34,24 +34,38 @@ const QuoteBox = () => {
       .finally(() => {
         setLoading(false);
       });
-  }
-  
+  };
+
   useEffect(() => {
     fetchQuote();
-  }, []); 
+  }, []);
   const handleNewQuoteClick = () => {
     fetchQuote();
   };
 
+  const handleShareQuote = (e) => {
+    e.preventDefault();
+    console.log("clicked");
+    // trying to get to twitter to post a new tweet
+    window.location.href = "www.twitter.com/intent/tweet";
+  };
   return (
     <div id="quote-box">
       <p id="text">{loading ? "loading" : quote}</p>
       <span id="author"> {author} </span>
       <div className="box">
-        <a href="#" id="tweet-quote">
+        <a
+            // trying to get to twitter to post a new tweet typically we'd use react router
+          href="www.twitter.com/intent/tweet"
+          id="tweet-quote"
+          onClick={handleShareQuote}
+        >
           Tweet Quote
         </a>
-        <button id="new-quote" onClick={handleNewQuoteClick}> New Quote </button>
+        <button id="new-quote" onClick={handleNewQuoteClick}>
+          {" "}
+          New Quote{" "}
+        </button>
       </div>
     </div>
   );
