@@ -6,7 +6,8 @@ const QuoteBox = () => {
   const [error, setError] = useState(null);
   const [author, setAuthor] = useState(null);
 
-  useEffect(() => {
+  const fetchQuote = async () => {
+    setLoading(true)
     let category = "happiness";
 
     fetch(`https://api.api-ninjas.com/v1/quotes?category=${category}`, {
@@ -22,15 +23,9 @@ const QuoteBox = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data); // Check the data received from the API
-
-        // Check if 'quote' property exists and is an array with at least one element
-        if (data) {
-          setQuote(data[0].quote);
-          setAuthor(data[0].author)
-        } else {
-          throw new Error("Invalid data structure received from the API");
-        }
+        console.log(data);
+        setQuote(data[0].quote);
+        setAuthor(data[0].author);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -39,18 +34,24 @@ const QuoteBox = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }
+  
+  useEffect(() => {
+    fetchQuote();
+  }, []); 
+  const handleNewQuoteClick = () => {
+    fetchQuote();
+  };
 
-  // Render when a quote is available
   return (
     <div id="quote-box">
       <p id="text">{loading ? "loading" : quote}</p>
-      <span id="author-text"> {author} </span>
+      <span id="author"> {author} </span>
       <div className="box">
         <a href="#" id="tweet-quote">
           Tweet Quote
         </a>
-        <button id="new-quote"> New Quote </button>
+        <button id="new-quote" onClick={handleNewQuoteClick}> New Quote </button>
       </div>
     </div>
   );

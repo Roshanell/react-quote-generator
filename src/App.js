@@ -3,7 +3,7 @@ import QuoteBox from "./QuoteBox";
 function App() {
   return (
     <div>
-      Hi
+      <h1>QOTD</h1>
       <QuoteBox />
     </div>
   );
