@@ -9,7 +9,6 @@ const QuoteBox = () => {
   const fetchQuote = async () => {
     setLoading(true);
     let category = "happiness";
-
     fetch(`https://api.api-ninjas.com/v1/quotes?category=${category}`, {
       headers: {
         "X-Api-Key": "tdiBIKQZtHOHE4Hv/C0rlg==PmQMnQaNHfgFZDML",
@@ -39,7 +38,8 @@ const QuoteBox = () => {
   useEffect(() => {
     fetchQuote();
   }, []);
-  const handleNewQuoteClick = () => {
+  const handleNewQuoteClick = (e) => {
+    e.preventDefault();
     fetchQuote();
   };
 
@@ -52,10 +52,10 @@ const QuoteBox = () => {
   return (
     <div id="quote-box">
       <p id="text">{loading ? "loading" : quote}</p>
-      <span id="author"> {author} </span>
+      <span id="author"> {loading ? "loading" : author} </span>
       <div className="box">
         <a
-            // trying to get to twitter to post a new tweet typically we'd use react router
+          // trying to get to twitter to post a new tweet typically we'd use react router
           href="www.twitter.com/intent/tweet"
           id="tweet-quote"
           onClick={handleShareQuote}
